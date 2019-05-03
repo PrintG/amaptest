@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.14&key=c79f2e8721f849fb226f20e303f6a475&plugin=AMap.Geolocation"></script> 
+</head>
+<body>
+	<script>
+		var geolocation = new AMap.Geolocation({
+			timeout: 1000*60*60*24	//不限制超时时间
+		});
+		
+		getCurPos();
+		function getCurPos(){
+			geolocation.getCurrentPosition(function(status,result){
+				if(status == "complete"){
+					var pos = result.position;
+					var lat = pos.lat,
+						lng = pos.lng;
+
+					alert(lat+"  "+lng);
+
+				}else{
+					if(/permission denied/i.test(result.message)){
+						alert("请允许获取位置信息！");
+						getCurPos();
+					}else{
+						alert("获取位置信息失败，请按如下步骤并刷新重试：\n1. 开启GPS(位置信息)");
+					}
+				}
+				
+			});
+		}
+	</script>
+
+</body>
+</html>
